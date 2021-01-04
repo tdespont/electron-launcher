@@ -1,0 +1,21 @@
+{
+  "name": "electron-launcher",
+  "version": "1.0.0",
+  "description": "A minimal Electron launcher",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder"
+  },
+  "author": "tde",
+  "license": "CC0-1.0",
+  "devDependencies": {
+    "electron": "^11.1.1",
+    "electron-builder": "^22.9.1"
+  },
+  "build": {
+    "win": {
+      "target": "portable"
+    }
+  }
+}
