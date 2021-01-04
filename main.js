@@ -45,6 +45,12 @@ app.on('window-all-closed', function () {
 // code. You can also put them in separate files and require them here.
 const { ipcMain } = require('electron')
 const { exec } = require("child_process");
+const fs = require('fs')
+
+const getWorkingDir = () => {
+  if (process.env.PORTABLE_EXECUTABLE_DIR) return process.env.PORTABLE_EXECUTABLE_DIR
+  return __dirname
+}
 
 const executeCommand = (command, event) => {
   exec(command, (error, stout, sterr) => {
@@ -56,3 +62,14 @@ ipcMain.on('command-execute', (event, arg) => {
   console.log('main go ' + arg)
   executeCommand('ping ' + arg, event)
 })
+
+ipcMain.on('config-load', (event, _) => {
+  process.getAppPath
+  console.log('start read config')
+  fs.readFile(getWorkingDir() + '/config.json', (err, data) => {
+    if (err) console.log('error: ' + err)
+    const config = JSON.parse(data)
+    event.reply('config-value', config)
+  })
+})
+

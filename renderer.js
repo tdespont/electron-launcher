@@ -10,6 +10,16 @@ const replaceText = (selector, text) => {
     if (element) element.innerText = text
 }
 
+const replaceHTML = (selector, html) => {
+    const element = document.getElementById(selector)
+    if (element) element.innerHTML = html
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    console.log('DOM loaded')
+    window.ipcRenderer.send('config-load')
+})
+
 document.querySelector('#go').addEventListener('click', () => {
     const field1 = document.querySelector('#field1').value
     console.log('go ' + field1)
@@ -19,4 +29,9 @@ document.querySelector('#go').addEventListener('click', () => {
 window.ipcRenderer.on('command-reply', (event, returnValue) => {
     console.log('out ' + returnValue)
     replaceText('result', returnValue)
+})
+
+window.ipcRenderer.on('config-value', (event, data) => {
+    console.log('config ' + data.test)
+    replaceHTML('root', '<button>'+ data.test +'</button>')
 })
